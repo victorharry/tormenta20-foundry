@@ -4,7 +4,7 @@
   "description": "Sistema NÃO OFICIAL de Tormenta20 para FoundryVTT!",
   "version": "1.5.015",
   "compatibility": {
-    "minimum": "13",
+    "minimum": "14",
     "verified": "14",
     "maximum": "14"
   },

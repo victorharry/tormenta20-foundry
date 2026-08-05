@@ -150,8 +150,10 @@ export default function () {
 						try {
 							const initial = new tormenta20.data.fields.SkillData();
 							const cls = CONFIG.Actor.dataModels[actor.type];
-							if (actor.system.pericias.ofi0) changes["system.pericias.-=ofi0"] = null;
-							if (actor.system.pericias._pc0) changes["system.pericias.-=_pc0"] = null;
+							if (actor.system.pericias.ofi0)
+								changes["system.pericias.ofi0"] = new foundry.data.operators.ForcedDeletion();
+							if (actor.system.pericias._pc0)
+								changes["system.pericias._pc0"] = new foundry.data.operators.ForcedDeletion();
 							if (
 								actor.system.pericias.acro?.st
 								&& actor.system.pericias.reli?.pda

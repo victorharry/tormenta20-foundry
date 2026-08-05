@@ -338,7 +338,7 @@ export default class ItemT20 extends Item {
 					break;
 			}
 		}
-		updates["flags.tormenta20.-=favorito"] = null;
+		updates["flags.tormenta20.favorito"] = new foundry.data.operators.ForcedDeletion();
 		if (updates) return this.updateSource(updates);
 	}
 

@@ -208,7 +208,7 @@ export default function Tormenta20BaseSheetMixin(Base) {
 				return this.document.update(updateData);
 			} else if (currentField instanceof Object) {
 				const updateData = {};
-				updateData[`${fieldPath}-=${entryId}`] = null;
+				updateData[`${fieldPath}.${entryId}`] = new foundry.data.operators.ForcedDeletion();
 				return this.document.update(updateData);
 			} else if (document) {
 				this.document.deleteEmbeddedDocuments(document.documentName, [entryId]);

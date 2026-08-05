@@ -1034,7 +1034,8 @@ export default class ActorSheetT20 extends foundry.appv1.sheets.ActorSheet {
 
 	async _onPericiaCustomDelete(event) {
 		const id = event.currentTarget.dataset.itemId;
-		await this.actor.update({ [`system.pericias.-=${id}`]: null });
+		// Foundry v14 rejeita a sintaxe legada "-=chave": null (lança erro em vez de avisar).
+		await this.actor.update({ [`system.pericias.${id}`]: new foundry.data.operators.ForcedDeletion() });
 	}
 
 	_onToggleSkillTraining(event) {
