@@ -1,28 +1,31 @@
 /* ============================================================
-   TORMENTA20 — TEMA ESCURO MODERNO PARA FICHAS DE ATOR
+   TORMENTA20 — TEMA ESCURO MODERNO PARA FICHAS DE ATOR  (v2)
    Escopo: .tormenta20.sheet.actor (character, tabbed e npc)
    Carregado por último no tormenta20.less para vencer a cascata.
-   Paleta em CSS custom properties — ajuste no bloco :root abaixo.
+
+   v2: mata todos os fundos bege do tema claro (zebra ímpar das
+   perícias, container .item-list, badge de nível, moedas), cria
+   o sistema de BANNERS DE SEÇÃO (Perícias / Inventário / Armas…
+   com identidade explícita) e refina a hierarquia de cor.
    ============================================================ */
 
 .tormenta20.sheet.actor {
   /* ------------------------- paleta ------------------------- */
-  --t20-bg-0: #13151b;        /* fundo da janela  */
-  --t20-bg-1: #1a1d26;        /* cartões          */
-  --t20-bg-2: #232836;        /* elevado / inputs */
-  --t20-bg-3: #2c3244;        /* hover            */
+  --t20-bg-0: #14161c;        /* fundo da janela  */
+  --t20-bg-1: #1b1e27;        /* cartões          */
+  --t20-bg-2: #242938;        /* elevado / inputs */
+  --t20-bg-3: #2d3346;        /* hover            */
   --t20-border: rgba(255, 255, 255, 0.08);
   --t20-border-strong: rgba(255, 255, 255, 0.16);
-  --t20-text: #e9e7e2;
-  --t20-text-dim: #9aa2b4;
-  --t20-text-faint: #6b7285;
+  --t20-text: #eceae5;
+  --t20-text-dim: #a7aebe;
+  --t20-text-faint: #6f7689;
   --t20-accent: #e14b52;      /* rubi Tormenta, clareado p/ dark */
   --t20-accent-deep: #8f2a30;
   --t20-accent-soft: rgba(225, 75, 82, 0.16);
   --t20-gold: #f0c75e;
   --t20-gold-soft: rgba(240, 199, 94, 0.15);
   --t20-mana: #58a0ec;
-  --t20-mana-soft: rgba(88, 160, 236, 0.15);
   --t20-life: #e35d64;
   --t20-ok: #57d992;
   --t20-radius: 10px;
@@ -39,7 +42,7 @@
   overflow: hidden;
 
   .window-header {
-    background: linear-gradient(180deg, #1c1f29 0%, #171a22 100%);
+    background: linear-gradient(180deg, #1d2029 0%, #171a22 100%);
     border-bottom: 1px solid var(--t20-border);
     color: var(--t20-text-dim);
 
@@ -52,8 +55,8 @@
 
   .window-content {
     background:
-      radial-gradient(1200px 380px at 50% -80px, rgba(225, 75, 82, 0.08), transparent 60%),
-      linear-gradient(180deg, #171a21 0%, var(--t20-bg-0) 240px);
+      radial-gradient(1100px 360px at 50% -60px, rgba(225, 75, 82, 0.07), transparent 60%),
+      linear-gradient(180deg, #181b22 0%, var(--t20-bg-0) 240px);
     color: var(--t20-text);
   }
 
@@ -76,21 +79,59 @@
   }
   scrollbar-color: #2e3444 transparent;
 
-  /* ---------------------- tipografia base -------------------- */
-  h1, h2, h3, h4 {
+  /* ============================================================
+     BANNERS DE SEÇÃO — identidade explícita de cada bloco
+     (Perícias, Inventário, Armas, Equipamento, Poderes…)
+     ============================================================ */
+
+  h4.box-title {
+    background: linear-gradient(90deg, rgba(225, 75, 82, 0.24) 0%, rgba(225, 75, 82, 0.06) 55%, transparent 100%);
+    border: 1px solid var(--t20-border);
+    border-left: 3px solid var(--t20-accent);
+    border-radius: var(--t20-radius-sm);
     color: var(--t20-text);
-    border-color: var(--t20-border);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 3px 10px;
+    height: auto;
+    line-height: 1.5;
   }
 
-  h4.box-title,
-  .attribute-name,
-  .ability-name,
-  .currency-header,
-  .item-header {
-    color: var(--t20-text-dim);
+  /* cabeçalhos de coluna das listas (Armas · Ataque · Qtd · Esp.) */
+  .item-list .item.item-header,
+  .skills-list .skill.item-header {
+    background: linear-gradient(90deg, rgba(225, 75, 82, 0.20) 0%, rgba(225, 75, 82, 0.05) 60%, transparent 100%);
+    border: 1px solid var(--t20-border);
+    border-left: 3px solid var(--t20-accent);
+    border-radius: var(--t20-radius-sm);
+    color: var(--t20-text);
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 700;
+  }
+
+  /* títulos centrais (Outras Características, Proficiências…) */
+  .tab h1:not(.charname),
+  .tab h2 {
+    background: linear-gradient(90deg, transparent 0%, rgba(225, 75, 82, 0.16) 50%, transparent 100%);
+    border: none;
+    border-bottom: 1px solid var(--t20-accent-deep);
+    border-radius: var(--t20-radius-sm) var(--t20-radius-sm) 0 0;
+    color: var(--t20-text);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  /* ---------------------- tipografia base -------------------- */
+  h3, h4 {
+    color: var(--t20-text);
+    border-color: var(--t20-border);
   }
 
   label,
@@ -173,6 +214,11 @@
     }
   }
 
+  .numCtrl {
+    background-color: var(--t20-bg-2) !important;
+    color: var(--t20-text);
+  }
+
   /* ---------------------- navegação (abas) ------------------- */
   nav.sheet-tabs,
   .sheet-tabs.tabs {
@@ -245,26 +291,27 @@
       }
     }
 
+    /* badge de nível — pílula rubi, estilo emblema */
     .charlevel {
       color: var(--t20-text-dim);
 
       .level {
-        background: linear-gradient(160deg, var(--t20-bg-2), var(--t20-bg-1));
-        border: 1px solid var(--t20-border-strong);
-        border-radius: 999px;
-        padding: 2px 12px;
-        color: var(--t20-gold);
+        background: linear-gradient(160deg, var(--t20-accent) 0%, var(--t20-accent-deep) 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.14) !important;
+        border-radius: 999px !important;
+        color: #fff !important;
         font-weight: 700;
-        box-shadow: var(--t20-shadow-soft);
+        letter-spacing: 0.04em;
+        box-shadow: 0 2px 10px rgba(225, 75, 82, 0.4);
       }
     }
 
-    /* barra de XP — trilho escuro, preenchimento dourado */
     .experience,
     .header-exp {
       color: var(--t20-text-dim);
     }
 
+    /* barra de XP — trilho escuro, preenchimento dourado */
     .xpbar {
       background: rgba(0, 0, 0, 0.45);
       border: 1px solid var(--t20-border);
@@ -304,9 +351,16 @@
         box-shadow: 0 4px 14px var(--t20-accent-soft);
       }
 
+      /* dentro do cartão o título volta a ser micro-rótulo */
       .ability-name {
-        font-size: 11px;
+        background: none;
         border: none;
+        border-radius: 0;
+        padding: 2px 0;
+        text-align: center;
+        font-size: 11px;
+        color: var(--t20-text-dim);
+        letter-spacing: 0.08em;
       }
 
       .atributo-value,
@@ -351,9 +405,14 @@
       border-radius: var(--t20-radius);
       box-shadow: var(--t20-shadow-soft);
 
+      /* micro-rótulo dentro do cartão (o acento vem da borda) */
       .attribute-name {
+        background: none;
         border: none;
-        background: transparent;
+        border-radius: 0;
+        padding: 2px 0;
+        text-align: center;
+        letter-spacing: 0.08em;
       }
 
       .attribute-value {
@@ -400,15 +459,30 @@
 
       &.defense {
         border-top: 2px solid var(--t20-text-dim);
+
+        .attribute-name {
+          color: var(--t20-text-dim);
+        }
       }
     }
   }
 
   /* ---------------------- listas de itens --------------------- */
+  /* o container vinha BEGE no tema claro — vira cartão escuro    */
   .item-list {
+    background-color: var(--t20-bg-1);
+    border: 1px solid var(--t20-border);
+    border-radius: var(--t20-radius);
+    box-shadow: var(--t20-shadow-soft);
+    padding: 4px 6px;
+
     .item {
-      border-bottom: 1px solid var(--t20-border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       transition: background 0.12s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       &:hover {
         background: var(--t20-bg-3);
@@ -416,19 +490,8 @@
       }
     }
 
-    .item.item-header {
-      background: var(--t20-bg-1);
-      border: 1px solid var(--t20-border);
-      border-radius: var(--t20-radius-sm);
-      color: var(--t20-text-dim);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-weight: 700;
-
-      &:hover {
-        background: var(--t20-bg-1);
-      }
+    .item.item-header:hover {
+      background: linear-gradient(90deg, rgba(225, 75, 82, 0.20) 0%, rgba(225, 75, 82, 0.05) 60%, transparent 100%);
     }
 
     .item-image {
@@ -438,6 +501,15 @@
 
     .item-name {
       color: var(--t20-text);
+    }
+
+    .item-type,
+    .item-tipo,
+    .item-activation,
+    .item-qty,
+    .item-weight,
+    .item-equipped {
+      color: var(--t20-text-dim);
     }
 
     .item-controls a {
@@ -457,6 +529,11 @@
     padding: 6px 10px;
   }
 
+  .item-summary {
+    color: var(--t20-text-dim);
+    border-top-color: var(--t20-border);
+  }
+
   /* ---------------------- perícias ---------------------------- */
   .skills-list {
     background: var(--t20-bg-1);
@@ -466,15 +543,17 @@
     padding: 4px;
 
     .skill {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--t20-text);
       border-radius: var(--t20-radius-sm);
       transition: background 0.12s ease;
 
-      &:nth-child(even) {
-        background: rgba(255, 255, 255, 0.02);
+      /* A ZEBRA DO TEMA CLARO É NAS LINHAS ÍMPARES — sobrescrever
+         exatamente o mesmo seletor, senão o bege vaza. */
+      &:not(.item-header, .create-skill):nth-child(odd) {
+        background: rgba(255, 255, 255, 0.035);
       }
 
-      &:hover {
+      &:not(.item-header):hover {
         background: var(--t20-bg-3);
         box-shadow: inset 2px 0 0 var(--t20-accent);
       }
@@ -485,22 +564,12 @@
 
       .item-abl,
       .item-outros {
-        color: var(--t20-text-dim);
+        color: var(--t20-text-faint);
       }
 
       .item-total {
         color: var(--t20-gold);
         font-weight: 700;
-      }
-
-      &.item-header {
-        background: transparent;
-        border-bottom: 1px solid var(--t20-border);
-        box-shadow: none;
-
-        &:hover {
-          box-shadow: none;
-        }
       }
     }
 
@@ -515,16 +584,23 @@
 
   /* ---------------------- moedas & carga ---------------------- */
   .inventory-currency,
-  .currency {
-    .currency-item,
+  .currency,
+  .tab .currency {
+    .currency-item {
+      background: var(--t20-bg-2);
+      border: 1px solid var(--t20-border);
+      border-radius: var(--t20-radius-sm);
+    }
+
     input {
-      background: var(--t20-bg-1);
+      background: rgba(0, 0, 0, 0.28);
       border: 1px solid var(--t20-border);
       border-radius: var(--t20-radius-sm);
     }
 
     label {
       color: var(--t20-text-dim);
+      font-weight: 700;
     }
 
     .denomination.gp { color: var(--t20-gold); }
@@ -561,7 +637,14 @@
     color: var(--t20-text);
 
     h1, h2, h3 {
+      background: none;
+      border: none;
       border-bottom: 1px solid var(--t20-border);
+      color: var(--t20-text);
+      text-transform: none;
+      letter-spacing: normal;
+      text-align: left;
+      font-weight: 700;
     }
 
     a {
@@ -614,40 +697,21 @@
   }
 
   /* ---------------------- ajustes finos ----------------------- */
-  /* linhas divisórias genéricas que vinham claras */
   hr {
     border-color: var(--t20-border);
   }
 
-  /* correções de cores fixas escuras herdadas do tema claro */
-  .item-summary {
-    color: var(--t20-text-dim);            /* descrição expandida de item   */
-    border-top-color: var(--t20-border);
-  }
-
   .proficient .proficiency-toggle {
-    color: var(--t20-ok);                  /* proficiente = verde, legível  */
+    color: var(--t20-ok);
   }
 
   .features i.original-class {
-    color: var(--t20-gold);                /* ícone de classe original      */
-  }
-
-  .skills-list .skill {
-    color: var(--t20-text);                /* linha da perícia vinha oliva  */
+    color: var(--t20-gold);
   }
 
   /* hovers que escureciam o texto (#111) — vira acento */
-  .item-detail:hover,
-  .item-name:hover {
+  .item-detail:hover {
     color: var(--t20-accent);
     text-shadow: 0 0 8px var(--t20-accent-soft);
-  }
-
-  /* títulos de seção com risco vermelho (ex.: Outras Características) */
-  .tab .flexcol > h1,
-  .tab .flexcol > h2,
-  .tab h2.section-title {
-    border-bottom: 1px solid var(--t20-accent-deep);
   }
 }
