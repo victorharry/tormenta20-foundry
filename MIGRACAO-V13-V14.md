@@ -229,6 +229,40 @@ travou a validação inteira, impedindo **qualquer** update naquele ator.
 
 ---
 
+---
+
+## Depreciações — ainda funcionam, mas somem na v16
+
+### `change.mode` numérico → `change.type` (string)
+
+**Aviso no console:**
+`You are accessing the numeric #mode of an ActiveEffect change. Use the string #type
+instead. Deprecated since Version 14 — support removed in Version 16.`
+
+O v14 substituiu os modos numéricos de Active Effect por **tipos em string**
+(`CONST.ACTIVE_EFFECT_CHANGE_TYPES`):
+
+| `mode` (antigo) | `type` (novo) |
+|---|---|
+| `0` CUSTOM | `"custom"` |
+| `1` MULTIPLY | `"multiply"` |
+| `2` ADD | `"add"` |
+| `3` DOWNGRADE | `"downgrade"` |
+| `4` UPGRADE | `"upgrade"` |
+| `5` OVERRIDE | `"override"` |
+
+**Onde o sistema ainda usa o formato antigo** (funciona hoje, quebra na v16):
+
+- `module/apps/ability-use.mjs` — **lê** `ch.mode` em ~12 comparações (`ch.mode == 2` etc.)
+- `module/apps/active-effect-wizard.mjs` — **escreve** `mode: ACTIVE_EFFECT_MODES.ADD`
+- `module/sheets/actor-character.mjs` — **escreve** `mode: ACTIVE_EFFECT_MODES.OVERRIDE`
+
+**Não corrigido de propósito:** é uma refatoração ampla e sem urgência — nada quebra
+no v14. Deixado mapeado para quando a v16 se aproximar (ou se o volume de avisos no
+console incomodar).
+
+---
+
 ## Notas de diagnóstico (o que custou tempo)
 
 - **`actor.items` e `actor.effects` são Collections, não Arrays.** `.flatMap` não existe.
