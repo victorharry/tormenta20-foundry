@@ -37,7 +37,14 @@ export default class TokenRulerT20 extends foundry.canvas.placeables.tokens.Toke
 		foundry.utils.mergeObject(
 			CONFIG.Token.movement.actions,
 			{
-				"-=crawl": null,
+				// Foundry v14 exige label+icon em TODA ação de movimento; deletar 'crawl'
+				// via "-=crawl" não funciona no v14 e deixa a ação sem label (quebra o setup
+				// do mundo). Definimos 'crawl' com label/icon válidos e a deixamos indisponível.
+				crawl: {
+					label: "Rastejar",
+					icon: sourceActions.crawl?.icon ?? sourceActions.walk?.icon ?? "fa-solid fa-person",
+					canSelect: () => false
+				},
 				blink: {
 					label: "T20.MovementTeleport"
 				},
