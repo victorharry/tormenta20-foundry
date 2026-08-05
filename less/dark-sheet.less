@@ -714,4 +714,174 @@
     color: var(--t20-accent);
     text-shadow: 0 0 8px var(--t20-accent-soft);
   }
+
+  /* ============================================================
+     v3 — MATA AS BORDAS "GROOVE" BRANCAS  (@borderGroove: 2px groove #eeede0)
+     O tema claro desenha bevels 3D quase brancos. No escuro viram aquelas
+     linhas duras e sem respiro. Cada regra abaixo espelha a ESPECIFICIDADE
+     do seletor original (o nosso arquivo é o último import, então empate = nós).
+     ============================================================ */
+
+  /* moldura externa da fileira de atributos: some, cada card vira o cartão */
+  .ability-scores {
+    border: none;
+    border-radius: 0;
+    gap: 6px;
+    padding: 0;
+  }
+
+  /* separador branco entre FOR|DES|CON... (character.less) */
+  &.character form .ability-scores .ability:not(:last-child),
+  &.npc form .ability-scores .ability:not(:last-child) {
+    border-right: none;
+  }
+
+  /* cartões de PV / PM / Defesa */
+  ul.attributes {
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+  }
+
+  ul.attributes li.attribute {
+    border: 1px solid var(--t20-border);
+    border-radius: var(--t20-radius);
+  }
+
+  /* demais bordas em relevo espalhadas pela ficha */
+  .skills-list {
+    border: 1px solid var(--t20-border);
+  }
+
+  .skills-list .skill input {
+    border: 1px solid var(--t20-border);
+    border-radius: var(--t20-radius-sm);
+    background: rgba(0, 0, 0, 0.28);
+    color: var(--t20-text);
+  }
+
+  .sheet-header .summary {
+    border-bottom: 1px solid var(--t20-border);
+  }
+
+  .sheet-header .attributes .attribute {
+    border-right: none;
+  }
+
+  .counters {
+    border-bottom: 1px solid var(--t20-border);
+  }
+
+  .ability-scores .ability .ability-modifiers span.ability-mod,
+  .ability-scores .ability .ability-modifiers span.ability-save {
+    border-color: var(--t20-border);
+  }
+
+  /* ============================================================
+     v3 — RETRATO MAIOR
+     Ocupa a altura do bloco nome + informações gerais.
+     ============================================================ */
+  &.character form.base img.profile,
+  &.character form.base .profile,
+  form.base img.profile {
+    flex: 0 0 132px;
+    max-width: 132px;
+    width: 132px;
+    height: 132px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  /* respiro entre retrato e os campos do cabeçalho */
+  .sheet-header {
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  /* ============================================================
+     v3 — MARCADORES DE PERÍCIA  (* somente treinado · + penalidade de armadura)
+     Agora são badges com tooltip, não texto solto.
+     ============================================================ */
+  .skill-flag {
+    display: inline-block;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    margin-left: 5px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 15px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: help;
+    user-select: none;
+
+    &.st {
+      color: var(--t20-gold);
+      background: var(--t20-gold-soft);
+      border: 1px solid rgba(240, 199, 94, 0.3);
+    }
+
+    &.pda {
+      color: var(--t20-mana);
+      background: rgba(88, 160, 236, 0.15);
+      border: 1px solid rgba(88, 160, 236, 0.3);
+    }
+  }
+
+  /* legenda ao pé da lista de perícias — explica o que cada marcador significa */
+  .skills-list .skill-footer {
+    list-style: none;
+    margin-top: 4px;
+    padding: 5px 8px;
+    border-top: 1px solid var(--t20-border);
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      font-size: 10px;
+      color: var(--t20-text-faint);
+      letter-spacing: 0.02em;
+
+      .skill-flag {
+        margin-left: 6px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  /* ============================================================
+     v3 — RESPIRO GERAL / RESPONSIVIDADE
+     ============================================================ */
+  .resources-main {
+    margin-top: 8px;
+  }
+
+  .attributes-left,
+  .attributes-right {
+    gap: 8px;
+    min-width: 0;   /* deixa as colunas encolherem sem estourar a janela */
+  }
+
+  .tab.attributes {
+    gap: 10px;
+  }
+
+  /* listas nunca empurram a largura da ficha */
+  .item-list,
+  .skills-list {
+    min-width: 0;
+  }
+
+  .skills-list .skill .item-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

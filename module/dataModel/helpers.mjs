@@ -38,10 +38,16 @@ class MappingField extends fields.ObjectField {
 	/* -------------------------------------------- */
 
 	/** @inheritdoc */
-	_cleanType(value, options) {
+	_cleanType(value, options, _state) {
+		// Foundry v14: DataField.clean(value, options, _state). O terceiro argumento carrega
+		// _state.source (o _source atual daquele ramo). Sem ele, SchemaField._cleanType avalia
+		// `!_state.source` como verdadeiro e limpa TODOS os campos, reaplicando os `initial`
+		// — o que zerava cada perícia para atributo "for" e apagava st/pda a cada update
+		// parcial da ficha. Propagamos o estado por chave, como faz o SchemaField do core.
 		Object.entries(value).forEach(([k, v]) => {
 			if (k.startsWith("-=")) return;
-			value[k] = this.model.clean(v, options);
+			const _innerState = { ..._state, source: _state?.source?.[k] };
+			value[k] = this.model.clean(v, options, _innerState);
 		});
 		return value;
 	}

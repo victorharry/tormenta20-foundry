@@ -11,9 +11,9 @@
 		<div class="item-name" data-item-id="{{skill.key}}">
 			<span class="rollable pericia-rollable">
 				{{{skill.label}}}
-				{{ifThen skill.st '*' ''}}
-				{{ifThen skill.pda '+' ''}}
 			</span>
+			{{#if skill.st}}<span class="skill-flag st" data-tooltip="{{localize 'T20.SkillTrainedOnly'}}">*</span>{{/if}}
+			{{#if skill.pda}}<span class="skill-flag pda" data-tooltip="{{localize 'T20.ArmorPenalty'}}">+</span>{{/if}}
 			{{#if (and skill.custom @root.editMode)}}
 				<a class="item-control skill-delete" data-item-id="{{skill.key}}" title="{{localize 'T20.Delete'}}"><i class="fas fa-trash"></i></a>
 			{{/if}}
@@ -58,7 +58,14 @@
 	</li>
 	{{#each skills as |skill|}}
 		{{#if skill.exibir}}
-			{{> pericia skill=skill}}
+			{{!-- perícia sem rótulo é lixo de dado (ex.: ofício criado em branco):
+			      escondemos no modo de jogo, mas mostramos no modo de edição
+			      para que possa ser apagada. --}}
+			{{#if skill.label}}
+				{{> pericia skill=skill}}
+			{{else if @root.editMode}}
+				{{> pericia skill=skill}}
+			{{/if}}
 		{{/if}}
 	{{/each}}
 
@@ -74,7 +81,10 @@
 		</li>
 	{{/if}}
 
-	<!-- <li class="skill-footer">
-		<label><i>* {{localize 'T20.SkillTrainedOnly'}}</i></label>
-	</li> -->
+	<li class="skill-footer">
+		<label>
+			<span class="skill-flag st">*</span> {{localize 'T20.SkillTrainedOnly'}}
+			<span class="skill-flag pda">+</span> {{localize 'T20.ArmorPenalty'}}
+		</label>
+	</li>
 </ul>
