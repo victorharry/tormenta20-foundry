@@ -89,7 +89,12 @@ class MappingField extends fields.ObjectField {
 		if (!foundry.utils.isEmpty(errors)) {
 			// v14: foundry.data.fields.ModelValidationError foi removido. Tentar instanciá-lo
 			// lançava "is not a constructor", mascarando o erro real de validação.
-			const failure = new foundry.data.validation.DataModelValidationFailure();
+			// A mensagem nomeia as chaves inválidas — sem isso o erro chega vazio
+			// ("pericias:") e não há como saber qual entrada está corrompida.
+			const chaves = Object.keys(errors);
+			const failure = new foundry.data.validation.DataModelValidationFailure(
+				`${chaves.length} entrada(s) inválida(s): ${chaves.map((k) => JSON.stringify(k)).join(", ")}`
+			);
 			failure.fields = errors;
 			throw failure.asError();
 		}
