@@ -884,4 +884,102 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  /* ============================================================
+     v4 — ABA DE EFEITOS
+     Ficava de fora do tema por usar `.items-header` (e não
+     `.item-header` como o Inventário). Aqui recebe o MESMO banner,
+     perde as bordas "groove" brancas e volta a ter texto legível
+     (o tema claro pintava a lista inteira com @colorDark #191813).
+     ============================================================ */
+  .effects-list {
+    color: var(--t20-text);
+    background-color: transparent;
+    scrollbar-width: thin;
+
+    /* cabeçalho de seção: Efeitos de Uso / Temporários / Passivos / ... */
+    .items-header {
+      background: linear-gradient(90deg, rgba(225, 75, 82, 0.20) 0%, rgba(225, 75, 82, 0.05) 60%, transparent 100%);
+      border: 1px solid var(--t20-border);
+      border-left: 3px solid var(--t20-accent);
+      border-radius: var(--t20-radius-sm);
+      color: var(--t20-text);
+      height: auto;
+      min-height: 26px;
+      margin: 6px 0 3px;
+      padding: 2px 0;
+
+      h3 {
+        color: var(--t20-text);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        border: none;
+      }
+
+      /* rótulos das colunas (Fonte / Duração) */
+      > * {
+        color: var(--t20-text-dim);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .effect-control {
+        color: var(--t20-text-dim);
+
+        &:hover {
+          color: var(--t20-accent);
+          text-shadow: 0 0 8px var(--t20-accent-soft);
+        }
+      }
+    }
+
+    /* linhas de efeito */
+    .item.effect {
+      background: var(--t20-bg-1);
+      border: 1px solid var(--t20-border);
+      border-radius: var(--t20-radius-sm);
+      margin: 2px 0;
+      transition: background 0.12s ease, border-color 0.12s ease;
+
+      &:hover {
+        background: var(--t20-bg-3);
+        border-color: var(--t20-border-strong);
+      }
+
+      .item-name,
+      .effect-name {
+        color: var(--t20-text);
+      }
+
+      .item-image {
+        border-radius: var(--t20-radius-sm);
+        border: 1px solid var(--t20-border);
+      }
+
+      .effect-source,
+      .effect-duration {
+        color: var(--t20-text-dim);
+      }
+
+      /* efeito desativado fica visivelmente apagado */
+      &.disabled,
+      &.inactive {
+        opacity: 0.55;
+      }
+    }
+
+    .effect-controls a,
+    .effect-control,
+    .effect-control-status {
+      color: var(--t20-text-faint);
+
+      &:hover {
+        color: var(--t20-accent);
+        text-shadow: 0 0 8px var(--t20-accent-soft);
+      }
+    }
+  }
 }
