@@ -231,6 +231,35 @@ travou a validação inteira, impedindo **qualquer** update naquele ator.
 
 ---
 
+## Módulo de terceiros incompatível: `vision-t20`
+
+**Sintoma:** ao arrastar um token para uma cena, **tela preta** e enxurrada de erros:
+
+```
+TypeError: this._source.detectionModes is not iterable
+    at TokenDocumentT20._prepareDetectionModes (token-document.mjs:30)
+TypeError: points.at is not a function
+    at CanvasVisibility._createVisibilityTestConfig
+    at CanvasVisibility.testVisibility (visibility.mjs:26)
+```
+
+**Causa:** o módulo **`vision-t20` 1.0.3** (<https://github.com/mclemente/vision-t20>)
+não é compatível com o v14. Ele estende `TokenDocument` e sobrescreve
+`CanvasVisibility.testVisibility` — ambos mudaram no v14. O segundo erro dispara a
+cada frame e a cada movimento do mouse, o que derruba o canvas.
+
+**Como identificar que a culpa não é do sistema:** os arquivos citados no stack
+(`token-document.mjs`, `visibility.mjs`) **não existem neste repositório**, e
+`detectionModes` não aparece em nenhum lugar do código do sistema. O marcador
+`[Detected 1 package: vision-t20(1.0.3)]` do próprio Foundry também aponta o culpado.
+
+**Solução:** **desativar o módulo**. Ele está declarado como `recommends` (não
+`requires`) no `system.json`, então nada do Tormenta20 depende dele — apenas se perdem
+os modos de visão/detecção extras que ele adicionava. Reative quando sair uma versão
+compatível com o v14.
+
+---
+
 ## Depreciações — ainda funcionam, mas somem na v16
 
 ### `change.mode` numérico → `change.type` (string)
