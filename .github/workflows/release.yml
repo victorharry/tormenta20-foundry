@@ -1,0 +1,57 @@
+name: Release
+
+# Publica um release sempre que você empurra uma tag vX.Y.Z.
+# Espelha a CI do GitLab: npm ci -> update-manifest -> build:ci -> zip dist -> release.
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Injetar versão + URLs no manifesto
+        run: |
+          npm run update-manifest -- \
+            --systemVersion="${GITHUB_REF_NAME#v}" \
+            --manifest="https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/system.json" \
+            --download="https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/system.zip"
+
+      - name: Build (packs + rollup -> dist/)
+        run: npm run build:ci
+
+      - name: Empacotar system.zip (system.json na raiz)
+        run: |
+          cd dist
+          zip -r ../system.zip .
+          cd ..
+
+      - name: Publicar release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" system.zip dist/system.json --clobber
+          else
+            gh release create "${GITHUB_REF_NAME}" system.zip dist/system.json \
+              -t "${GITHUB_REF_NAME} — Foundry v14" \
+              -n "Build ${GITHUB_REF_NAME#v} do sistema Tormenta20 (Vizael, BSD-3), compatível com Foundry VTT v14.
+          **Manifest URL:** https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/system.json"
+          fi
