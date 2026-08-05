@@ -2,9 +2,14 @@
 
 > **Fork de compatibilidade com Foundry VTT v14.** Este repositório é o **código-fonte**
 > do sistema de [Victor Hugo Paiva / Vizael](https://gitlab.com/vizael/Tormenta20) (BSD-3),
-> com a faixa de compatibilidade ajustada para o **v14**. O build é gerado pela
-> **GitHub Action** (`.github/workflows/release.yml`) ao empurrar uma tag `vX.Y.Z` — igual
-> ao fluxo da CI do GitLab. Nenhuma regra do sistema foi alterada.
+> adaptado para o **v14**. O build é gerado pela **GitHub Action**
+> (`.github/workflows/release.yml`) ao empurrar uma tag `vX.Y.Z` — igual ao fluxo da CI
+> do GitLab.
+>
+> **Nenhuma regra de jogo foi alterada.** As mudanças são de compatibilidade com APIs do
+> v14 (mais um tema escuro opcional para as fichas de ator). Todas estão catalogadas em
+> [`MIGRACAO-V13-V14.md`](MIGRACAO-V13-V14.md) — leia antes de mexer no `MappingField`,
+> em Active Effects ou em qualquer coisa que remova chaves de dados.
 >
 > **Instalar no Foundry** (Install System → Manifest URL):
 > ```
