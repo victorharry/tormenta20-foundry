@@ -886,6 +886,42 @@
   }
 
   /* ============================================================
+     v5 — TEXTOS ESCUROS QUE VENCIAM POR ESPECIFICIDADE
+     O tema claro fixa color:#191813 / #4b4a44 em seletores mais
+     específicos que os meus. Aqui cada regra espelha a especificidade
+     do original (nosso arquivo é o último import → empate = nós).
+     ============================================================ */
+
+  /* descrição expandida de poder/item — era texto quase preto no escuro */
+  .item-list .item-summary {
+    color: var(--t20-text-dim);
+    border-top-color: var(--t20-border);
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 0 0 var(--t20-radius-sm) var(--t20-radius-sm);
+
+    p, li, td, span { color: inherit; }
+    strong, b { color: var(--t20-text); }
+    em, i { color: var(--t20-text-dim); }
+    a { color: var(--t20-mana); }
+  }
+
+  &.character .sheet-header .header-exp .charlevel {
+    color: var(--t20-text-dim);
+  }
+
+  &.character .resource .attribute-value label.recharge {
+    color: var(--t20-text-dim);
+  }
+
+  .counters .counter h4 {
+    color: var(--t20-text-dim);
+  }
+
+  .traits i.fas:hover {
+    color: var(--t20-accent);
+  }
+
+  /* ============================================================
      v4 — ABA DE EFEITOS
      Ficava de fora do tema por usar `.items-header` (e não
      `.item-header` como o Inventário). Aqui recebe o MESMO banner,
