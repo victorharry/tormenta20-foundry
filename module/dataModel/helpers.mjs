@@ -46,6 +46,9 @@ class MappingField extends fields.ObjectField {
 		// parcial da ficha. Propagamos o estado por chave, como faz o SchemaField do core.
 		Object.entries(value).forEach(([k, v]) => {
 			if (k.startsWith("-=")) return;
+			// v14: operadores (ForcedDeletion/ForcedReplacement) não são dados do modelo —
+			// passam intactos para a camada de update resolver.
+			if (v instanceof foundry.data.operators.DataFieldOperator) return;
 			const _innerState = { ..._state, source: _state?.source?.[k] };
 			value[k] = this.model.clean(v, options, _innerState);
 		});
@@ -83,7 +86,13 @@ class MappingField extends fields.ObjectField {
 	_validateType(value, options = {}) {
 		if (foundry.utils.getType(value) !== "Object") throw new Error("must be an Object");
 		const errors = this._validateValues(value, options);
-		if (!foundry.utils.isEmpty(errors)) throw new foundry.data.fields.ModelValidationError(errors);
+		if (!foundry.utils.isEmpty(errors)) {
+			// v14: foundry.data.fields.ModelValidationError foi removido. Tentar instanciá-lo
+			// lançava "is not a constructor", mascarando o erro real de validação.
+			const failure = new foundry.data.validation.DataModelValidationFailure();
+			failure.fields = errors;
+			throw failure.asError();
+		}
 	}
 
 	/* -------------------------------------------- */
@@ -98,6 +107,7 @@ class MappingField extends fields.ObjectField {
 		const errors = {};
 		for (const [k, v] of Object.entries(value)) {
 			if (k.startsWith("-=")) continue;
+			if (v instanceof foundry.data.operators.DataFieldOperator) continue;
 			const error = this.model.validate(v, options);
 			if (error) errors[k] = error;
 		}
