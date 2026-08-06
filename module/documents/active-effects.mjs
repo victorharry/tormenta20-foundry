@@ -162,7 +162,12 @@ export default class ActiveEffectT20 extends ActiveEffect {
 	get isTemporary() {
 		const scene = this.getFlag("tormenta20", "durationScene");
 		const duration = this.duration.seconds ?? (this.duration.rounds || this.duration.turns) ?? 0;
-		return scene || duration > 0 || this.statuses.size;
+		// Foundry v14: um efeito SEM duração passou a reportar duration.seconds = Infinity
+		// (no v13 era null). Como `Infinity > 0`, todo efeito permanente era classificado
+		// como temporário — o que colocava poderes passivos na aba "Efeitos Temporários"
+		// e fazia o token exibir o ícone de cada traço racial. Exigimos duração FINITA,
+		// igual ao isTemporary do core (Number.isFinite).
+		return scene || (Number.isFinite(duration) && duration > 0) || this.statuses.size;
 	}
 	/* --------------------------------------------- */
 
